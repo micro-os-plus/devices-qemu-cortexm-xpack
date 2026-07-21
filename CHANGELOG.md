@@ -6,9 +6,41 @@ Please check
 [GitHub](https://github.com/micro-os-plus/devices-qemu-cortexm-xpack/issues/)
 and close existing issues and pull requests.
 
+## 2026-07-22
+
+* 01a8ffc xcdl updates
+
+## 2026-07-21
+
+* 02aeada fix copyright notices
+* 06a3c43 re-generate top commons
+
+## 2026-06-11
+
+* 09724fb prefer project-config.h
+
+## 2026-06-06
+
+* e69b388 use __has_include(<micro-os-plus/config.h>)
+* d84c9dc copyright update 2026
+
+## 2025-11-20
+
+* 6e0b08f rename npm-pack
+
+## 2025-10-07
+
+* 7fbe9a9 update copyright notices
+
+## 2023-11-28
+
+* 3c0d3f5 README updates
+* f0ccb03 package.json: cosmetise scripts
+
 ## 2023-10-23
 
-* v5.1.0
+* 3e44ea0 5.1.0
+* c9f0afa prepare v5.1.0
 * 30dd5d6 add an386.ld
 
 ## 2023-10-19

@@ -3,11 +3,11 @@
   "minimumXcdlRequired": "2.0.0",
   "license": "MIT",
   "copyright": "Copyright (c) 2022-2026 Liviu Ionescu. All rights reserved.",
-
   "description": "Top QEMU Cortex-M components",
   "cdlComponents": [
     {
-      "id": "devices-qemu-cortexm",
+      "id": "micro-os-plus.devices.qemu-cortexm",
+      "alias": "micro-os-plus.device",
       "description": "The QEMU Cortex-M device definitions",
       "publicIncludeFolders": [
         "include"
@@ -20,10 +20,15 @@
       ],
       "$comment": "Clarify how to use the device definition, known in the platform",
       "dependencies": [
-        "xpack-3rd-party::arm-cmsis-core-m"
+        "micro-os-plus.diag.trace",
+        "micro-os-plus.architecture",
+        "xpack-3rd-party.arm-cmsis-core-m",
+        // This introduces a circular dependency.
+        // "micro-os-plus.semihosting",
+
       ],
       "implementedInterfaces": [
-        "device"
+        "micro-os-plus.devices.interface"
       ],
       // "defaultDefine": "MICRO_OS_PLUS_DEVICES_QEMU_CORTEXM_ENABLED"
     }

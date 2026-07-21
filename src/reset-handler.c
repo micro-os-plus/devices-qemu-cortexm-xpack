@@ -11,15 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-#if __has_include(<micro-os-plus/project-config.h>)
-#include <micro-os-plus/project-config.h>
-#elif __has_include(<micro-os-plus/config.h>)
-#pragma message "micro-os-plus/config.h is deprecated, rename to micro-os-plus/project-config.h and include it instead of micro-os-plus/config.h"
-#include <micro-os-plus/config.h>
-#endif // __has_include(<micro-os-plus/project-config.h>)
-
-#include <micro-os-plus/architecture.h>
-#include <micro-os-plus/architecture-cortexm/exception-handlers.h>
+#include <micro-os-plus/device.h>
 
 #include <stdint.h>
 
@@ -27,7 +19,8 @@
 
 extern handler_ptr_t _interrupt_vectors[];
 
-extern void __attribute__ ((noreturn, weak)) _start (void);
+extern void __attribute__ ((noreturn, weak))
+_start (void);
 
 // ----------------------------------------------------------------------------
 
@@ -47,7 +40,7 @@ void __attribute__ ((section (".after_vectors"), noreturn, naked))
 Reset_Handler (void)
 {
   // For just in case, when started via QEMU.
-  __asm__(" MSR msp, %0 " : : "r"(&__stack) :);
+  __asm__ (" MSR msp, %0 " : : "r"(&__stack) :);
   // cortexm_architecture_set_msp(&__stack);
 
   // SCB
@@ -71,7 +64,7 @@ Reset_Handler (void)
   *((uint32_t*)0xE000EF34) |= (uint32_t)(0x3 << 29);
 #endif // defined(__ARM_FP)
 
-#if !defined(MICRO_OS_PLUS_INCLUDE_STARTUP)
+#if !defined(MICRO_OS_PLUS_STARTUP_ENABLED)
   // Newlib `_start()` does not copy initialised data.
   // The compiler may optimise it to a call to memcpy(), thus the stack
   // must be set at this point.
@@ -86,7 +79,7 @@ Reset_Handler (void)
           *p++ = *from++;
         }
     }
-#endif // !defined(MICRO_OS_PLUS_INCLUDE_STARTUP)
+#endif // !defined(MICRO_OS_PLUS_STARTUP_ENABLED)
 
   _start ();
 }

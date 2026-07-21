@@ -11,13 +11,6 @@
 
 // ----------------------------------------------------------------------------
 
-#if __has_include(<micro-os-plus/project-config.h>)
-#include <micro-os-plus/project-config.h>
-#elif __has_include(<micro-os-plus/config.h>)
-#pragma message "micro-os-plus/config.h is deprecated, rename to micro-os-plus/project-config.h and include it instead of micro-os-plus/config.h"
-#include <micro-os-plus/config.h>
-#endif // __has_include(<micro-os-plus/project-config.h>)
-
 #include <micro-os-plus/device.h>
 #include <micro-os-plus/architecture-cortexm/exception-handlers.h>
 // #include <micro-os-plus/startup/defines.h>
@@ -26,6 +19,7 @@
 #include <micro-os-plus/diag/trace.h>
 
 #include <string.h>
+#include <inttypes.h>
 
 // ----------------------------------------------------------------------------
 
@@ -38,7 +32,8 @@ extern "C"
   extern unsigned int __heap_end__;
   extern unsigned int __stack;
 
-  void __attribute__ ((noreturn, weak)) _start (void);
+  void __attribute__ ((noreturn, weak))
+  _start (void);
 }
 
 #pragma GCC diagnostic push
@@ -69,7 +64,8 @@ extern "C"
 
 // ----------------------------------------------------------------------------
 
-void __attribute__ ((section (".after_vectors"), weak)) NMI_Handler (void)
+void __attribute__ ((section (".after_vectors"), weak))
+NMI_Handler (void)
 {
   trace::puts ("[NMI_Handler]");
   cortexm::architecture::bkpt ();
@@ -101,30 +97,30 @@ dump_exception_stack (exception_stack_frame_s* frame, uint32_t cfsr,
                       uint32_t mmfar, uint32_t bfar, uint32_t lr)
 {
   trace::printf ("Stack frame:\n");
-  trace::printf (" R0 =  %08X\n", frame->r0);
-  trace::printf (" R1 =  %08X\n", frame->r1);
-  trace::printf (" R2 =  %08X\n", frame->r2);
-  trace::printf (" R3 =  %08X\n", frame->r3);
-  trace::printf (" R12 = %08X\n", frame->r12);
-  trace::printf (" LR =  %08X\n", frame->lr);
-  trace::printf (" PC =  %08X\n", frame->pc);
-  trace::printf (" PSR = %08X\n", frame->psr);
+  trace::printf (" R0 =  %08" PRIX32 "\n", frame->r0);
+  trace::printf (" R1 =  %08" PRIX32 "\n", frame->r1);
+  trace::printf (" R2 =  %08" PRIX32 "\n", frame->r2);
+  trace::printf (" R3 =  %08" PRIX32 "\n", frame->r3);
+  trace::printf (" R12 = %08" PRIX32 "\n", frame->r12);
+  trace::printf (" LR =  %08" PRIX32 "\n", frame->lr);
+  trace::printf (" PC =  %08" PRIX32 "\n", frame->pc);
+  trace::printf (" PSR = %08" PRIX32 "\n", frame->psr);
   trace::printf ("FSR/FAR:\n");
-  trace::printf (" CFSR =  %08X\n", cfsr);
-  trace::printf (" HFSR =  %08X\n", SCB->HFSR);
-  trace::printf (" DFSR =  %08X\n", SCB->DFSR);
-  trace::printf (" AFSR =  %08X\n", SCB->AFSR);
+  trace::printf (" CFSR =  %08" PRIX32 "\n", cfsr);
+  trace::printf (" HFSR =  %08" PRIX32 "\n", SCB->HFSR);
+  trace::printf (" DFSR =  %08" PRIX32 "\n", SCB->DFSR);
+  trace::printf (" AFSR =  %08" PRIX32 "\n", SCB->AFSR);
 
   if (cfsr & (1UL << 7))
     {
-      trace::printf (" MMFAR = %08X\n", mmfar);
+      trace::printf (" MMFAR = %08" PRIX32 "\n", mmfar);
     }
   if (cfsr & (1UL << 15))
     {
-      trace::printf (" BFAR =  %08X\n", bfar);
+      trace::printf (" BFAR =  %08" PRIX32 "\n", bfar);
     }
   trace::printf ("Misc\n");
-  trace::printf (" LR/EXC_RETURN= %08X\n", lr);
+  trace::printf (" LR/EXC_RETURN= %08" PRIX32 "\n", lr);
 }
 
 #endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
@@ -135,16 +131,16 @@ void
 dump_exception_stack (exception_stack_frame_s* frame, uint32_t lr)
 {
   trace::printf ("Stack frame:\n");
-  trace::printf (" R0 =  %08X\n", frame->r0);
-  trace::printf (" R1 =  %08X\n", frame->r1);
-  trace::printf (" R2 =  %08X\n", frame->r2);
-  trace::printf (" R3 =  %08X\n", frame->r3);
-  trace::printf (" R12 = %08X\n", frame->r12);
-  trace::printf (" LR =  %08X\n", frame->lr);
-  trace::printf (" PC =  %08X\n", frame->pc);
-  trace::printf (" PSR = %08X\n", frame->psr);
+  trace::printf (" R0 =  %08" PRIX32 "\n", frame->r0);
+  trace::printf (" R1 =  %08" PRIX32 "\n", frame->r1);
+  trace::printf (" R2 =  %08" PRIX32 "\n", frame->r2);
+  trace::printf (" R3 =  %08" PRIX32 "\n", frame->r3);
+  trace::printf (" R12 = %08" PRIX32 "\n", frame->r12);
+  trace::printf (" LR =  %08" PRIX32 "\n", frame->lr);
+  trace::printf (" PC =  %08" PRIX32 "\n", frame->pc);
+  trace::printf (" PSR = %08" PRIX32 "\n", frame->psr);
   trace::printf ("Misc\n");
-  trace::printf (" LR/EXC_RETURN= %08X\n", lr);
+  trace::printf (" LR/EXC_RETURN= %08" PRIX32 "\n", lr);
 }
 
 #endif // defined(__ARM_ARCH_6M__)
@@ -165,7 +161,7 @@ dump_exception_stack (exception_stack_frame_s* frame, uint32_t lr)
 void __attribute__ ((section (".after_vectors"), weak, naked))
 HardFault_Handler (void)
 {
-  __asm__ volatile(
+  __asm__ volatile (
 
       " tst lr,#4       \n"
       " ite eq          \n"
@@ -215,7 +211,7 @@ hard_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
 void __attribute__ ((section (".after_vectors"), weak, naked))
 HardFault_Handler (void)
 {
-  __asm__ volatile(
+  __asm__ volatile (
 
       " movs r0,#4      \n"
       " mov r1,lr       \n"
@@ -270,7 +266,7 @@ MemManage_Handler (void)
 void __attribute__ ((section (".after_vectors"), weak, naked))
 BusFault_Handler (void)
 {
-  __asm__ volatile(
+  __asm__ volatile (
 
       " tst lr,#4       \n"
       " ite eq          \n"
@@ -309,7 +305,7 @@ bus_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
 void __attribute__ ((section (".after_vectors"), weak, naked))
 UsageFault_Handler (void)
 {
-  __asm__ volatile(
+  __asm__ volatile (
 
       " tst lr,#4       \n"
       " ite eq          \n"
@@ -347,7 +343,8 @@ usage_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
 
 #endif
 
-void __attribute__ ((section (".after_vectors"), weak)) SVC_Handler (void)
+void __attribute__ ((section (".after_vectors"), weak))
+SVC_Handler (void)
 {
   trace::puts ("[SVC_Handler]");
   cortexm::architecture::bkpt ();
@@ -359,7 +356,8 @@ void __attribute__ ((section (".after_vectors"), weak)) SVC_Handler (void)
 
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
 
-void __attribute__ ((section (".after_vectors"), weak)) DebugMon_Handler (void)
+void __attribute__ ((section (".after_vectors"), weak))
+DebugMon_Handler (void)
 {
   // Don't trigger another BKPT.
   while (1)
@@ -370,7 +368,8 @@ void __attribute__ ((section (".after_vectors"), weak)) DebugMon_Handler (void)
 
 #endif
 
-void __attribute__ ((section (".after_vectors"), weak)) PendSV_Handler (void)
+void __attribute__ ((section (".after_vectors"), weak))
+PendSV_Handler (void)
 {
   cortexm::architecture::bkpt ();
   while (1)
@@ -379,7 +378,8 @@ void __attribute__ ((section (".after_vectors"), weak)) PendSV_Handler (void)
     }
 }
 
-void __attribute__ ((section (".after_vectors"), weak)) SysTick_Handler (void)
+void __attribute__ ((section (".after_vectors"), weak))
+SysTick_Handler (void)
 {
   // DO NOT loop, just return.
   // Useful in case someone (like STM HAL) inadvertently enables SysTick.

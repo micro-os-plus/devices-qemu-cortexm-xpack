@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# DO NOT EDIT! Automatically generated from xcdl-package.jsonc.
+# DO NOT EDIT! Automatically generated from template file: xcdl-package.jsonc
 #
 # This file is part of the µOS++ project (https://micro-os-plus.github.io/).
 # Copyright (c) 2021-2026 Liviu Ionescu. All rights reserved.
@@ -30,7 +30,7 @@ project (
   micro-os-plus-devices-qemu-cortexm
   DESCRIPTION
     "A source code library with the µOS++ QEMU Cortex-M devices support"
-  LANGUAGES CXX
+  LANGUAGES C CXX ASM
 )
 
 # To access the optional functions, include the
@@ -81,7 +81,7 @@ target_sources (
 target_link_libraries (
   micro-os-plus-devices-qemu-cortexm-interface
   INTERFACE "micro-os-plus::diag-trace" "micro-os-plus::architecture"
-            "xpack-3rd-party::arm-cmsis-core-m"
+            "xpack-3rd-party::arm-cmsis-core-cortex-m"
 )
 
 if (COMMAND xpack_display_target_lists)

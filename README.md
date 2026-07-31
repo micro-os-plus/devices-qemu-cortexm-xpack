@@ -132,7 +132,7 @@ The following folders should be passed to the compiler during the build:
 The header files to be included in user project are:
 
 ```c
-#include <micro-os-plus/device.h>
+#include "micro-os-plus/device.h"
 ```
 
 #### Source files
@@ -229,13 +229,13 @@ TBD
 According to [semver](https://semver.org) rules:
 
 > Major version X (X.y.z | X > 0) MUST be incremented if any
-backwards incompatible changes are introduced to the public API.
+> backwards incompatible changes are introduced to the public API.
 
 The incompatible changes, in reverse chronological order,
 are:
 
-- v5.x: rename checked macros to MICRO_OS_PLUS_DEVICE_*
-- v4.x: rename mem-mps2-*.ld; non-weak Reset_Handler
+- v5.x: rename checked macros to MICRO*OS_PLUS_DEVICE*\*
+- v4.x: rename mem-mps2-\*.ld; non-weak Reset_Handler
 - v3.x: rename MICRO_OS_PLUS_DEBUG
 - v2.x: rename devices-qemu-cortexm
 

@@ -8,7 +8,8 @@
     {
       "id": "micro-os-plus.devices.qemu-cortexm",
       "alias": "micro-os-plus.device",
-      "description": "The QEMU Cortex-M device definitions",
+      "display": "QEMU Cortex-M devices",
+      "description": "The QEMU Cortex-M devices definitions",
       "publicIncludeFolders": [
         "include"
       ],
@@ -22,15 +23,34 @@
       "dependencies": [
         "micro-os-plus.diag.trace",
         "micro-os-plus.architecture",
-        "xpack-3rd-party.arm-cmsis-core-m",
+        "xpack-3rd-party.arm-cmsis-core-cortex-m",
         // This introduces a circular dependency.
         // "micro-os-plus.semihosting",
-
       ],
       "implementedInterfaces": [
-        "micro-os-plus.devices.interface"
+        "micro-os-plus.device"
       ],
-      // "defaultDefine": "MICRO_OS_PLUS_DEVICES_QEMU_CORTEXM_ENABLED"
+      "generatedFile": {
+        "type": "c-header",
+        "filePath": "{{buildFolderPath}}/generated/include/micro-os-plus/device-defines.h"
+      },
+      // "defaultDefine": "MICRO_OS_PLUS_DEVICES_QEMU_CORTEXM_ENABLED",
+      "cdlOptions": [
+        {
+          "id": "core",
+          "display": "CPU core",
+          "description": "Select the QEMU Cortex-M CPU",
+          "valueType": "string",
+          "legalValues": [
+            "m0",
+            "m0plus",
+            "m3",
+            "m4",
+            "m7"
+          ],
+          "customDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEX"
+        }
+      ]
     }
   ]
 }

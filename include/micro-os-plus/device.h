@@ -20,26 +20,24 @@
 #endif
 #endif // defined(__cplusplus)
 
-#if __has_include(<micro-os-plus/project-config.h>)
-#include <micro-os-plus/project-config.h>
-#elif __has_include(<micro-os-plus/config.h>)
-#pragma message \
-    "micro-os-plus/config.h is deprecated, rename to micro-os-plus/project-config.h and include it instead of micro-os-plus/config.h"
-#include <micro-os-plus/config.h>
-#endif // __has_include(<micro-os-plus/project-config.h>)
+#if __has_include("micro-os-plus/project-config.h")
+#include "micro-os-plus/project-config.h"
+#endif // __has_include("micro-os-plus/project-config.h")
 
-#if __has_include(<micro-os-plus/device-defines.h>)
-#include <micro-os-plus/device-defines.h>
-#endif // __has_include(<micro-os-plus/device-defines.h>)
-
-#include <micro-os-plus/architecture.h>
+#if __has_include("micro-os-plus/device-defines.h")
+#include "micro-os-plus/device-defines.h"
+#endif // __has_include("micro-os-plus/device-defines.h")
 
 // ----------------------------------------------------------------------------
 
-#ifdef __cplusplus
+#include "micro-os-plus/architecture.h"
+
+// ----------------------------------------------------------------------------
+
+#if defined(__cplusplus)
 extern "C"
 {
-#endif /* __cplusplus */
+#endif // defined(__cplusplus)
 
   // --------------------------------------------------------------------------
 
@@ -61,12 +59,14 @@ extern "C"
     SysTick_IRQn = -1, /*!< 15 System Tick Interrupt */
   } IRQn_Type;
 
+#if defined(__GNUC__)
 #pragma GCC diagnostic push
-#ifdef __cplusplus
+#if defined(__cplusplus)
 #pragma GCC diagnostic ignored "-Wuseless-cast"
 #pragma GCC diagnostic ignored "-Wvolatile"
 #endif
 #pragma GCC diagnostic ignored "-Wconversion"
+#endif // defined(__GNUC__)
 
 #if defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M0)
 
@@ -127,7 +127,9 @@ extern "C"
 #error "Device not supported"
 #endif
 
+#if defined(__GNUC__)
 #pragma GCC diagnostic pop
+#endif // defined(__GNUC__)
 
   extern uint32_t SystemCoreClock; /*!< System Clock Frequency (Core Clock) */
 
@@ -138,9 +140,9 @@ extern "C"
 
   // --------------------------------------------------------------------------
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
-#endif /* __cplusplus */
+#endif // defined(__cplusplus)
 
 // ----------------------------------------------------------------------------
 

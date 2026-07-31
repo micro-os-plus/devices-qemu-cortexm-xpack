@@ -11,12 +11,12 @@
 
 // ----------------------------------------------------------------------------
 
-#include <micro-os-plus/device.h>
-#include <micro-os-plus/architecture-cortexm/exception-handlers.h>
-// #include <micro-os-plus/startup/defines.h>
+#include "micro-os-plus/device.h"
+#include "micro-os-plus/architecture-cortexm/exception-handlers.h"
+// #include "micro-os-plus/startup/defines.h"
 
-#include <micro-os-plus/semihosting.h>
-#include <micro-os-plus/diag/trace.h>
+#include "micro-os-plus/semihosting.h"
+#include "micro-os-plus/diag/trace.h"
 
 #include <string.h>
 #include <inttypes.h>
@@ -36,9 +36,10 @@ extern "C"
   _start (void);
 }
 
-#pragma GCC diagnostic push
+#if defined(__GNUC__)
 // core_cm4.h:1558:42: error: use of old-style cast to 'struct CoreDebug_Type*
 #pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif // defined(__GNUC__)
 
 // ----------------------------------------------------------------------------
 // Default exception handlers. Override the ones here by defining your own
@@ -77,7 +78,7 @@ NMI_Handler (void)
 
 // ----------------------------------------------------------------------------
 
-#if defined(MICRO_OS_PLUS_TRACE)
+#if defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
 
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
 
@@ -145,7 +146,7 @@ dump_exception_stack (exception_stack_frame_s* frame, uint32_t lr)
 
 #endif // defined(__ARM_ARCH_6M__)
 
-#endif // defined(MICRO_OS_PLUS_TRACE)
+#endif // defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
 
 // ----------------------------------------------------------------------------
 
@@ -181,14 +182,14 @@ void __attribute__ ((section (".after_vectors"), weak, used))
 hard_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
                       uint32_t lr __attribute__ ((unused)))
 {
-#if defined(MICRO_OS_PLUS_TRACE)
+#if defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
   uint32_t mmfar = SCB->MMFAR; // MemManage Fault Address
   uint32_t bfar = SCB->BFAR; // Bus Fault Address
   uint32_t cfsr = SCB->CFSR; // Configurable Fault Status Registers
 
   trace::puts ("[HardFault]");
   dump_exception_stack (frame, cfsr, mmfar, bfar, lr);
-#endif // defined(MICRO_OS_PLUS_TRACE)
+#endif // defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
 
   cortexm::architecture::bkpt ();
   while (1)
@@ -236,10 +237,10 @@ void __attribute__ ((section (".after_vectors"), weak, used))
 hard_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
                       uint32_t lr __attribute__ ((unused)))
 {
-#if defined(MICRO_OS_PLUS_TRACE)
+#if defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
   trace::printf ("[HardFault]\n");
   dump_exception_stack (frame, lr);
-#endif // defined(MICRO_OS_PLUS_TRACE)
+#endif // defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
 
   cortexm::architecture::bkpt ();
   while (1)
@@ -286,14 +287,14 @@ void __attribute__ ((section (".after_vectors"), weak, used))
 bus_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
                      uint32_t lr __attribute__ ((unused)))
 {
-#if defined(MICRO_OS_PLUS_TRACE)
+#if defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
   uint32_t mmfar = SCB->MMFAR; // MemManage Fault Address
   uint32_t bfar = SCB->BFAR; // Bus Fault Address
   uint32_t cfsr = SCB->CFSR; // Configurable Fault Status Registers
 
   trace::puts ("[BusFault]");
   dump_exception_stack (frame, cfsr, mmfar, bfar, lr);
-#endif // defined(MICRO_OS_PLUS_TRACE)
+#endif // defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
 
   cortexm::architecture::bkpt ();
   while (1)
@@ -325,14 +326,14 @@ void __attribute__ ((section (".after_vectors"), weak, used))
 usage_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
                        uint32_t lr __attribute__ ((unused)))
 {
-#if defined(MICRO_OS_PLUS_TRACE)
+#if defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
   uint32_t mmfar = SCB->MMFAR; // MemManage Fault Address
   uint32_t bfar = SCB->BFAR; // Bus Fault Address
   uint32_t cfsr = SCB->CFSR; // Configurable Fault Status Registers
 
   trace::puts ("[UsageFault]");
   dump_exception_stack (frame, cfsr, mmfar, bfar, lr);
-#endif // defined(MICRO_OS_PLUS_TRACE)
+#endif // defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
 
   cortexm::architecture::bkpt ();
   while (1)
@@ -366,7 +367,7 @@ DebugMon_Handler (void)
     }
 }
 
-#endif
+#endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
 
 void __attribute__ ((section (".after_vectors"), weak))
 PendSV_Handler (void)
@@ -384,7 +385,5 @@ SysTick_Handler (void)
   // DO NOT loop, just return.
   // Useful in case someone (like STM HAL) inadvertently enables SysTick.
 }
-
-#pragma GCC diagnostic pop
 
 // ----------------------------------------------------------------------------

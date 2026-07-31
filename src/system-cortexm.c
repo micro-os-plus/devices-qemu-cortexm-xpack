@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-#include <micro-os-plus/device.h>
+#include "micro-os-plus/device.h"
 
 // ----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ SystemInit (void)
 #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
   // set CP10 and CP11 Full Access
   SCB->CPACR |= ((3UL << 10 * 2) | (3UL << 11 * 2));
-#endif
+#endif // (__FPU_PRESENT == 1) && (__FPU_USED == 1)
 }
 
 void

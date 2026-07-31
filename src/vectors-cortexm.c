@@ -15,7 +15,7 @@
 
 // ----------------------------------------------------------------------------
 
-#include <micro-os-plus/device.h>
+#include "micro-os-plus/device.h"
 
 // ----------------------------------------------------------------------------
 
@@ -31,9 +31,9 @@ typedef void
 
 // ----------------------------------------------------------------------------
 
-#pragma GCC diagnostic push
-
+#if defined(__GNUC__)
 #pragma GCC diagnostic ignored "-Wpedantic"
+#endif // defined(__GNUC__)
 
 /**
  * The table of interrupt handlers. It has an explicit section name
@@ -78,8 +78,6 @@ handler_ptr_t _interrupt_vectors[] =
     // Not used by the generic QEMU machine.
 };
 
-#pragma GCC diagnostic pop
-
 // ----------------------------------------------------------------------------
 
 /**
@@ -91,7 +89,7 @@ handler_ptr_t _interrupt_vectors[] =
 void __attribute__ ((section(".after_vectors")))
 Default_Handler(void)
 {
-#if defined(MICRO_OS_PLUS_DEBUG)
+#if defined(MICRO_OS_PLUS_DEBUG_ENABLED)
   micro_os_plus_architecture_brk();
 #endif
   while (1)

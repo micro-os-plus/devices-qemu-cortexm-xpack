@@ -11,7 +11,7 @@
 
 // ----------------------------------------------------------------------------
 
-#include <micro-os-plus/device.h>
+#include "micro-os-plus/device.h"
 
 #include <stdint.h>
 
@@ -52,7 +52,7 @@ Reset_Handler (void)
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
   *((uint32_t*)0xE000ED08)
       = ((uint32_t)_interrupt_vectors & (uint32_t)(~0x3F));
-#endif
+#endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
 
 #if defined(__ARM_FP)
   // Enable CP10 and CP11 coprocessor.

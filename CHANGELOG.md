@@ -6,8 +6,18 @@ Please check
 [GitHub](https://github.com/micro-os-plus/devices-qemu-cortexm-xpack/issues/)
 and close existing issues and pull requests.
 
+## 2026-08-04
+
+* v6.0.0
+* 1040f3a re-generate top commons
+
 ## 2026-07-22
 
+* 7ccae33 xcdl-package.jsonc update
+* fc96f0a re-generate top xcdl
+* 46a3017 re-generate top commons
+* c0dac3b cosmetise guards & includes
+* 892065c prepare 6.0.0
 * 01a8ffc xcdl updates
 
 ## 2026-07-21

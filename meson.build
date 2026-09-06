@@ -51,10 +51,8 @@ _local_include_directories += [
 ]
 
 _local_sources += [
-  'src/reset-handler.c',
   'src/system-cortexm.c',
   'src/vectors-cortexm.c',
-  'src/exception-handlers.cpp',
 ]
 
 _local_dependencies += [

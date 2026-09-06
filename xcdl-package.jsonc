@@ -14,10 +14,8 @@
         "include"
       ],
       "sourceFiles": [
-        "src/reset-handler.c",
         "src/system-cortexm.c",
-        "src/vectors-cortexm.c",
-        "src/exception-handlers.cpp"
+        "src/vectors-cortexm.c"
       ],
       "$comment": "Clarify how to use the device definition, known in the platform",
       "dependencies": [
@@ -46,7 +44,8 @@
             "m0plus",
             "m3",
             "m4",
-            "m7"
+            "m7",
+            "m23"
           ],
           "customDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEX"
         }

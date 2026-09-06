@@ -24,64 +24,65 @@ _start (void);
 
 // ----------------------------------------------------------------------------
 
-// Begin address for the initialisation values of the .data section.
-extern uintptr_t __data_load_addr__;
-// Begin address for the .data section.
-extern uintptr_t __data_begin__;
-// End address for the .data section.
-extern uintptr_t __data_end__;
+#if defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8M_BASE__)
 
-extern uint32_t __stack;
+extern uintptr_t __stack_limit__;
+
+#if defined (__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)
+extern uintptr_t __stack_seal__;
+#endif // defined (__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)
+
+#endif // defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8M_BASE__)
 
 // ----------------------------------------------------------------------------
 
-// QEMU sets SP to the first word in flash.
+// QEMU always uses the VTOR values to initialise the stack and the vector
+// table, so the Reset_Handler() is always called.
 void __attribute__ ((section (".after_vectors"), noreturn, naked))
 Reset_Handler (void)
 {
-  // For just in case, when started via QEMU.
-  __asm__ (" MSR msp, %0 " : : "r"(&__stack) :);
-  // cortexm_architecture_set_msp(&__stack);
+#if defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8M_BASE__)
 
-  // SCB
-  // https://developer.arm.com/documentation/dui0552/a/cortex-m3-peripherals/system-control-block
+  __set_MSPLIM((uint32_t)(&__stack_limit__));
+  // Set PSPLIM when PSP is set, here PSP stack is not known.
 
-  // SCB->VTOR
-  // https://developer.arm.com/documentation/dui0552/a/cortex-m3-peripherals/system-control-block/vector-table-offset-register
-  // Mandatory when running from RAM. Not available on Cortex-M0.
-#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
-  *((uint32_t*)0xE000ED08)
-      = ((uint32_t)_interrupt_vectors & (uint32_t)(~0x3F));
-#endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+#if defined (__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)
+  __TZ_set_STACKSEAL_S((uint32_t *)(&__stack_seal__));
+#endif // defined (__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)
 
-#if defined(__ARM_FP)
+#endif // defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8M_BASE__)
+
+  // Floating point instructions can be used early in the C/C++ startup 
+  // sequence as a result of compiler optimisations, therefore the 
+  // FPU must be enabled before calling any C/C++ functions, including main(). 
+  // (`SystemInit()` happens too late).
+#if (defined (__FPU_USED) && (__FPU_USED == 1U)) || \
+    (defined (__ARM_FEATURE_MVE) && (__ARM_FEATURE_MVE > 0U))
   // Enable CP10 and CP11 coprocessor.
-  // SCB->CPACR |= (0xF << 20);
-  *((uint32_t*)0xE000ED88) |= (uint32_t)(0xF << 20);
+  SCB->CPACR |= ((3U << 10U*2U) |           /* enable CP10 Full Access */
+                 (3U << 11U*2U)  );         /* enable CP11 Full Access */
 
   // Lazy save.
-  // FPU->FPCCR |= FPU_FPCCR_ASPEN_Msk | FPU_FPCCR_LSPEN_Msk;
-  *((uint32_t*)0xE000EF34) |= (uint32_t)(0x3 << 29);
-#endif // defined(__ARM_FP)
+  FPU->FPCCR |= FPU_FPCCR_ASPEN_Msk | FPU_FPCCR_LSPEN_Msk;
+#endif // defined (__FPU_USED) ...
 
-#if !defined(MICRO_OS_PLUS_STARTUP_ENABLED)
-  // Newlib `_start()` does not copy initialised data.
-  // The compiler may optimise it to a call to memcpy(), thus the stack
-  // must be set at this point.
-  if (&__data_load_addr__ != &__data_begin__)
-    {
-      // Iterate and copy word by word.
-      // Assume that the pointers are word aligned.
-      uintptr_t* from = &__data_load_addr__;
-      uintptr_t* p = &__data_begin__;
-      while (p < &__data_end__)
-        {
-          *p++ = *from++;
-        }
-    }
-#endif // !defined(MICRO_OS_PLUS_STARTUP_ENABLED)
+#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_8M_MAIN__)
+
+  // Enable faults.
+  SCB->SHCSR |= SCB_SHCSR_USGFAULTENA_Msk |
+                SCB_SHCSR_BUSFAULTENA_Msk |
+                SCB_SHCSR_MEMFAULTENA_Msk;
+
+#endif // defined(__ARM_ARCH_7M__) ...
 
   _start ();
+  /* NOTREACHED */
+
+  cortexm_architecture_bkpt ();
+  while (1)
+    {
+      cortexm_architecture_wfi ();
+    }
 }
 
 // ----------------------------------------------------------------------------

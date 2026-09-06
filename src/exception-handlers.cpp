@@ -80,7 +80,8 @@ NMI_Handler (void)
 
 #if defined(MICRO_OS_PLUS_DIAG_TRACE_ENABLED)
 
-#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) \
+    || defined(__ARM_ARCH_8M_MAIN__)
 
 // The values of BFAR and MMFAR stay unchanged if the BFARVALID or
 // MMARVALID is set. However, if a new fault occurs during the
@@ -125,6 +126,7 @@ dump_exception_stack (exception_stack_frame_s* frame, uint32_t cfsr,
 }
 
 #endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+// || defined(__ARM_ARCH_8M_MAIN__)
 
 #if defined(__ARM_ARCH_6M__)
 
@@ -150,7 +152,8 @@ dump_exception_stack (exception_stack_frame_s* frame, uint32_t lr)
 
 // ----------------------------------------------------------------------------
 
-#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) \
+    || defined(__ARM_ARCH_8M_MAIN__)
 
 // Hard Fault handler wrapper in assembly.
 // It extracts the location of stack frame and passes it to handler
@@ -199,6 +202,7 @@ hard_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
 }
 
 #endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+// || defined(__ARM_ARCH_8M_MAIN__)
 
 #if defined(__ARM_ARCH_6M__)
 
@@ -251,7 +255,10 @@ hard_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
 
 #endif // defined(__ARM_ARCH_6M__)
 
-#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+// ----------------------------------------------------------------------------
+
+#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) \
+    || defined(__ARM_ARCH_8M_MAIN__)
 
 void __attribute__ ((section (".after_vectors"), weak))
 MemManage_Handler (void)
@@ -263,6 +270,9 @@ MemManage_Handler (void)
       cortexm::architecture::wfi ();
     }
 }
+
+
+// ----------------------------------------------------------------------------
 
 void __attribute__ ((section (".after_vectors"), weak, naked))
 BusFault_Handler (void)
@@ -302,6 +312,8 @@ bus_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
       cortexm::architecture::wfi ();
     }
 }
+
+// ----------------------------------------------------------------------------
 
 void __attribute__ ((section (".after_vectors"), weak, naked))
 UsageFault_Handler (void)
@@ -344,6 +356,31 @@ usage_fault_handler_c (exception_stack_frame_s* frame __attribute__ ((unused)),
 
 #endif
 
+// ----------------------------------------------------------------------------
+
+#if defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8M_BASE__)
+
+  void
+  SecureFault_Handler (void) __attribute__ ((section (".after_vectors"), weak)) {
+
+#if defined(MICRO_OS_PLUS_DEBUG_ENABLED)
+  if ((CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk) != 0)
+    {
+      cortexm::architecture::bkpt ();
+    }
+#endif // defined(MICRO_OS_PLUS_DEBUG_ENABLED)
+
+  while (1)
+    {
+      cortexm::architecture::wfi ();
+    }
+   
+  }
+
+#endif // defined(__ARM_ARCH_8M_MAIN__) || defined(__ARM_ARCH_8M_BASE__)
+
+// ----------------------------------------------------------------------------
+
 void __attribute__ ((section (".after_vectors"), weak))
 SVC_Handler (void)
 {
@@ -355,7 +392,10 @@ SVC_Handler (void)
     }
 }
 
-#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+// ----------------------------------------------------------------------------
+
+#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) \
+    || defined(__ARM_ARCH_8M_MAIN__)
 
 void __attribute__ ((section (".after_vectors"), weak))
 DebugMon_Handler (void)
@@ -368,6 +408,9 @@ DebugMon_Handler (void)
 }
 
 #endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+// || defined(__ARM_ARCH_8M_MAIN__)
+
+// ----------------------------------------------------------------------------
 
 void __attribute__ ((section (".after_vectors"), weak))
 PendSV_Handler (void)
@@ -378,6 +421,8 @@ PendSV_Handler (void)
       cortexm::architecture::wfi ();
     }
 }
+
+// ----------------------------------------------------------------------------
 
 void __attribute__ ((section (".after_vectors"), weak))
 SysTick_Handler (void)

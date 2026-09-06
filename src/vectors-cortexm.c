@@ -85,6 +85,7 @@ handler_ptr_t _interrupt_vectors[] =
  * specific handler is not present in the application code.
  * When in DEBUG, trigger a debug exception to clearly notify
  * the user of the exception and help identify the cause.
+ * Otherwise enter a forever loop.
  */
 void __attribute__ ((section(".after_vectors")))
 Default_Handler(void)

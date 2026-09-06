@@ -124,6 +124,22 @@ extern "C"
 
 #include "core_cm7.h"
 
+#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M33)
+
+// The __NVIC_PRIO_BITS might be 8 for QEMU.
+
+/* --------  Configuration of Core Peripherals  ----------------------------------- */
+#define __CM33_REV                0x0000U   /* Core revision r0p1 */
+#define __SAUREGION_PRESENT       0U        /* SAU regions present */
+#define __MPU_PRESENT             1U        /* MPU present */
+#define __VTOR_PRESENT            1U        /* VTOR present */
+#define __NVIC_PRIO_BITS          4U        /* Number of Bits used for Priority Levels */
+#define __Vendor_SysTickConfig    0U        /* Set to 1 if different SysTick Config is used */
+#define __FPU_PRESENT             1U        /* FPU present */
+#define __DSP_PRESENT             1U        /* DSP extension present */
+
+#include "core_cm33.h"                      /* Processor and core peripherals */
+
 #else
 #error "Device not supported"
 #endif

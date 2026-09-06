@@ -23,9 +23,7 @@
 
 MEMORY
 {
-  FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 0x00800000 /* 8M */
-  RAM (xrw) : ORIGIN = 0x20000000, LENGTH = 0x00800000 /* 8M */
-  /* Semihosting SYS_HEAPINFO returns it. */
-  PSRAM (xrw) : ORIGIN = 0x60000000, LENGTH = 0x01000000 /* 16M */
+  FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 4M
+  RAM (xrw) : ORIGIN = 0x20000000, LENGTH = 4M
 }
 

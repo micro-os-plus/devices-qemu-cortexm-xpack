@@ -14,8 +14,7 @@
         "include"
       ],
       "sourceFiles": [
-        "src/system-cortexm.c",
-        "src/vectors-cortexm.c"
+        "src/system-cortexm.c"
       ],
       "$comment": "Clarify how to use the device definition, known in the platform",
       "dependencies": [
@@ -50,6 +49,66 @@
           "customDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEX"
         }
       ]
+    },
+    {
+      "id": "micro-os-plus.devices.qemu-cortexm.vectors-generic",
+      "display": "Cortex-M generic vectors",
+      "description": "The Cortex-M generic interrupt vectors",
+      "sourceFiles": [
+        "src/vectors-generic.c"
+      ],
+      "dependencies": [
+        "micro-os-plus.architecture"
+      ]
+      // "defaultDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEXM_VECTORS_GENERIC_ENABLED"
+    },
+    {
+      "id": "micro-os-plus.devices.qemu-cortexm.vectors-mps2-an385",
+      "display": "MPS2-AN385 vectors",
+      "description": "The MPS2-AN385 interrupt vectors",
+      "sourceFiles": [
+        "src/vectors-mps2-an385.c"
+      ],
+      "dependencies": [
+        "micro-os-plus.architecture"
+      ],
+      // "defaultDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEXM_VECTORS_MPS2_AN385_ENABLED"
+    },
+    {
+      "id": "micro-os-plus.devices.qemu-cortexm.vectors-mps2-an386",
+      "display": "MPS2-AN386 vectors",
+      "description": "The MPS2-AN386 interrupt vectors",
+      "sourceFiles": [
+        "src/vectors-mps2-an386.c"
+      ],
+      "dependencies": [
+        "micro-os-plus.architecture"
+      ],
+      // "defaultDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEXM_VECTORS_MPS2_AN386_ENABLED"
+    },
+    {
+      "id": "micro-os-plus.devices.qemu-cortexm.vectors-mps2-an500",
+      "display": "MPS2-AN500 vectors",
+      "description": "The MPS2-AN500 interrupt vectors",
+      "sourceFiles": [
+        "src/vectors-mps2-an500.c"
+      ],
+      "dependencies": [
+        "micro-os-plus.architecture"
+      ],
+      // "defaultDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEXM_VECTORS_MPS2_AN500_ENABLED"
+    },
+    {
+      "id": "micro-os-plus.devices.qemu-cortexm.vectors-mps2-an505",
+      "display": "MPS2-AN505 vectors",
+      "description": "The MPS2-AN505 interrupt vectors",
+      "sourceFiles": [
+        "src/vectors-mps2-an505.c"
+      ],
+      "dependencies": [
+        "micro-os-plus.architecture"
+      ],
+      // "defaultDefine": "MICRO_OS_PLUS_DEVICE_QEMU_CORTEXM_VECTORS_MPS2_AN505_ENABLED"
     }
   ]
 }

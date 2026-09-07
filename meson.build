@@ -20,6 +20,11 @@
 # This creates dependencies that can be linked to a target with:
 #
 # `dependencies: [micro_os_plus_devices_qemu_cortexm_dependency],`
+# `dependencies: [micro_os_plus_devices_qemu_cortexm_vectors_generic_dependency],`
+# `dependencies: [micro_os_plus_devices_qemu_cortexm_vectors_mps2_an385_dependency],`
+# `dependencies: [micro_os_plus_devices_qemu_cortexm_vectors_mps2_an386_dependency],`
+# `dependencies: [micro_os_plus_devices_qemu_cortexm_vectors_mps2_an500_dependency],`
+# `dependencies: [micro_os_plus_devices_qemu_cortexm_vectors_mps2_an505_dependency],`
 
 # Note: the Meson configuration is provided only as a proof of concept;
 # for production it might need some refinements.
@@ -27,7 +32,7 @@
 # -----------------------------------------------------------------------------
 
 # A source code library with the µOS++ QEMU Cortex-M devices support.
-message('Processing xPack @micro-os-plus/devices-qemu-cortexm...')
+message('Processing xpm package @micro-os-plus/devices-qemu-cortexm...')
 
 # -----------------------------------------------------------------------------
 
@@ -52,7 +57,6 @@ _local_include_directories += [
 
 _local_sources += [
   'src/system-cortexm.c',
-  'src/vectors-cortexm.c',
 ]
 
 _local_dependencies += [
@@ -87,7 +91,7 @@ message('> micro_os_plus_devices_qemu_cortexm_dependency')
 # -----------------------------------------------------------------------------
 # Alias.
 
-micro_os_plus_device_dependency = declare_dependency(
+_dependency = declare_dependency(
   include_directories: include_directories(_local_include_directories),
   compile_args: _local_compile_args,
   sources: files(_local_sources),
@@ -98,8 +102,8 @@ micro_os_plus_device_dependency = declare_dependency(
 
 # Meson dependencies cannot differentiate between C and C++ compile args;
 # they are therefore exposed as separate variables alongside the dependency.
-micro_os_plus_device_dependency_compile_c_args = _local_compile_c_args
-micro_os_plus_device_dependency_compile_cpp_args = _local_compile_cpp_args
+_dependency_compile_c_args = _local_compile_c_args
+_dependency_compile_cpp_args = _local_compile_cpp_args
 
 foreach name : _local_include_directories
   message('+ -I ' + name)
@@ -107,6 +111,221 @@ endforeach
 foreach name : _local_sources + _local_compile_definitions + _local_compile_args + _local_compile_c_args + _local_compile_cpp_args
   message('+ ' + name)
 endforeach
-message('> micro_os_plus_device_dependency')
+message('> _dependency')
+
+# -----------------------------------------------------------------------------
+
+_local_compile_args = [] # Common C/C++ args.
+_local_compile_c_args = [] # C only args.
+_local_compile_cpp_args = [] # C++ only args.
+_local_include_directories = []
+_local_sources = []
+_local_compile_definitions = []
+_local_dependencies = []
+_local_link_args = []
+_local_link_with = []
+
+_local_sources += [
+  'src/vectors-generic.c',
+]
+
+_local_dependencies += [
+  micro_os_plus_architecture_dependency,
+]
+
+# https://mesonbuild.com/Reference-manual_functions.html#declare_dependency
+micro_os_plus_devices_qemu_cortexm_vectors_generic_dependency = declare_dependency(
+  include_directories: include_directories(_local_include_directories),
+  compile_args: _local_compile_args,
+  sources: files(_local_sources),
+  dependencies: _local_dependencies,
+  link_args: _local_link_args,
+  link_with: _local_link_with,
+)
+
+# Meson dependencies cannot differentiate between C and C++ compile args;
+# they are therefore exposed as separate variables alongside the dependency.
+micro_os_plus_devices_qemu_cortexm_vectors_generic_dependency_compile_c_args = _local_compile_c_args
+micro_os_plus_devices_qemu_cortexm_vectors_generic_dependency_compile_cpp_args = _local_compile_cpp_args
+
+foreach name : _local_include_directories
+  message('+ -I ' + name)
+endforeach
+foreach name : _local_sources + _local_compile_definitions + _local_compile_args + _local_compile_c_args + _local_compile_cpp_args
+  message('+ ' + name)
+endforeach
+message('> micro_os_plus_devices_qemu_cortexm_vectors_generic_dependency')
+
+# -----------------------------------------------------------------------------
+
+_local_compile_args = [] # Common C/C++ args.
+_local_compile_c_args = [] # C only args.
+_local_compile_cpp_args = [] # C++ only args.
+_local_include_directories = []
+_local_sources = []
+_local_compile_definitions = []
+_local_dependencies = []
+_local_link_args = []
+_local_link_with = []
+
+_local_sources += [
+  'src/vectors-mps2-an385.c',
+]
+
+_local_dependencies += [
+  micro_os_plus_architecture_dependency,
+]
+
+# https://mesonbuild.com/Reference-manual_functions.html#declare_dependency
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an385_dependency = declare_dependency(
+  include_directories: include_directories(_local_include_directories),
+  compile_args: _local_compile_args,
+  sources: files(_local_sources),
+  dependencies: _local_dependencies,
+  link_args: _local_link_args,
+  link_with: _local_link_with,
+)
+
+# Meson dependencies cannot differentiate between C and C++ compile args;
+# they are therefore exposed as separate variables alongside the dependency.
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an385_dependency_compile_c_args = _local_compile_c_args
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an385_dependency_compile_cpp_args = _local_compile_cpp_args
+
+foreach name : _local_include_directories
+  message('+ -I ' + name)
+endforeach
+foreach name : _local_sources + _local_compile_definitions + _local_compile_args + _local_compile_c_args + _local_compile_cpp_args
+  message('+ ' + name)
+endforeach
+message('> micro_os_plus_devices_qemu_cortexm_vectors_mps2_an385_dependency')
+
+# -----------------------------------------------------------------------------
+
+_local_compile_args = [] # Common C/C++ args.
+_local_compile_c_args = [] # C only args.
+_local_compile_cpp_args = [] # C++ only args.
+_local_include_directories = []
+_local_sources = []
+_local_compile_definitions = []
+_local_dependencies = []
+_local_link_args = []
+_local_link_with = []
+
+_local_sources += [
+  'src/vectors-mps2-an386.c',
+]
+
+_local_dependencies += [
+  micro_os_plus_architecture_dependency,
+]
+
+# https://mesonbuild.com/Reference-manual_functions.html#declare_dependency
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an386_dependency = declare_dependency(
+  include_directories: include_directories(_local_include_directories),
+  compile_args: _local_compile_args,
+  sources: files(_local_sources),
+  dependencies: _local_dependencies,
+  link_args: _local_link_args,
+  link_with: _local_link_with,
+)
+
+# Meson dependencies cannot differentiate between C and C++ compile args;
+# they are therefore exposed as separate variables alongside the dependency.
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an386_dependency_compile_c_args = _local_compile_c_args
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an386_dependency_compile_cpp_args = _local_compile_cpp_args
+
+foreach name : _local_include_directories
+  message('+ -I ' + name)
+endforeach
+foreach name : _local_sources + _local_compile_definitions + _local_compile_args + _local_compile_c_args + _local_compile_cpp_args
+  message('+ ' + name)
+endforeach
+message('> micro_os_plus_devices_qemu_cortexm_vectors_mps2_an386_dependency')
+
+# -----------------------------------------------------------------------------
+
+_local_compile_args = [] # Common C/C++ args.
+_local_compile_c_args = [] # C only args.
+_local_compile_cpp_args = [] # C++ only args.
+_local_include_directories = []
+_local_sources = []
+_local_compile_definitions = []
+_local_dependencies = []
+_local_link_args = []
+_local_link_with = []
+
+_local_sources += [
+  'src/vectors-mps2-an500.c',
+]
+
+_local_dependencies += [
+  micro_os_plus_architecture_dependency,
+]
+
+# https://mesonbuild.com/Reference-manual_functions.html#declare_dependency
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an500_dependency = declare_dependency(
+  include_directories: include_directories(_local_include_directories),
+  compile_args: _local_compile_args,
+  sources: files(_local_sources),
+  dependencies: _local_dependencies,
+  link_args: _local_link_args,
+  link_with: _local_link_with,
+)
+
+# Meson dependencies cannot differentiate between C and C++ compile args;
+# they are therefore exposed as separate variables alongside the dependency.
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an500_dependency_compile_c_args = _local_compile_c_args
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an500_dependency_compile_cpp_args = _local_compile_cpp_args
+
+foreach name : _local_include_directories
+  message('+ -I ' + name)
+endforeach
+foreach name : _local_sources + _local_compile_definitions + _local_compile_args + _local_compile_c_args + _local_compile_cpp_args
+  message('+ ' + name)
+endforeach
+message('> micro_os_plus_devices_qemu_cortexm_vectors_mps2_an500_dependency')
+
+# -----------------------------------------------------------------------------
+
+_local_compile_args = [] # Common C/C++ args.
+_local_compile_c_args = [] # C only args.
+_local_compile_cpp_args = [] # C++ only args.
+_local_include_directories = []
+_local_sources = []
+_local_compile_definitions = []
+_local_dependencies = []
+_local_link_args = []
+_local_link_with = []
+
+_local_sources += [
+  'src/vectors-mps2-an505.c',
+]
+
+_local_dependencies += [
+  micro_os_plus_architecture_dependency,
+]
+
+# https://mesonbuild.com/Reference-manual_functions.html#declare_dependency
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an505_dependency = declare_dependency(
+  include_directories: include_directories(_local_include_directories),
+  compile_args: _local_compile_args,
+  sources: files(_local_sources),
+  dependencies: _local_dependencies,
+  link_args: _local_link_args,
+  link_with: _local_link_with,
+)
+
+# Meson dependencies cannot differentiate between C and C++ compile args;
+# they are therefore exposed as separate variables alongside the dependency.
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an505_dependency_compile_c_args = _local_compile_c_args
+micro_os_plus_devices_qemu_cortexm_vectors_mps2_an505_dependency_compile_cpp_args = _local_compile_cpp_args
+
+foreach name : _local_include_directories
+  message('+ -I ' + name)
+endforeach
+foreach name : _local_sources + _local_compile_definitions + _local_compile_args + _local_compile_c_args + _local_compile_cpp_args
+  message('+ ' + name)
+endforeach
+message('> micro_os_plus_devices_qemu_cortexm_vectors_mps2_an505_dependency')
 
 # -----------------------------------------------------------------------------

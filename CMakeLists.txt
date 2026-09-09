@@ -30,23 +30,27 @@
 # -----------------------------------------------------------------------------
 
 # https://cmake.org/cmake/help/v3.20/
-cmake_minimum_required(VERSION 3.20)
-project(
+cmake_minimum_required (VERSION 3.20)
+project (
   micro-os-plus-devices-qemu-cortexm
   DESCRIPTION
     "A source code library with the µOS++ QEMU Cortex-M devices support"
-  LANGUAGES C CXX ASM)
+  LANGUAGES C CXX ASM
+)
 
 # To access the optional functions, include the
 # `cmake/micro-os-plus-build-helper.cmake` file from the
 # `@micro-os-plus/build-helper` package.
 
-if(COMMAND xpack_get_package_name_and_version)
-  xpack_get_package_name_and_version("${CMAKE_CURRENT_SOURCE_DIR}/package.json")
-  message(
+if (COMMAND xpack_get_package_name_and_version)
+  xpack_get_package_name_and_version (
+    "${CMAKE_CURRENT_SOURCE_DIR}/package.json"
+  )
+  message (
     VERBOSE
-    "Processing xpm package ${PACKAGE_JSON_NAME}@${PACKAGE_JSON_VERSION}...")
-endif()
+    "Processing xpm package ${PACKAGE_JSON_NAME}@${PACKAGE_JSON_VERSION}..."
+  )
+endif ()
 
 # -----------------------------------------------------------------------------
 
@@ -66,68 +70,84 @@ endif()
 # https://cmake.org/cmake/help/v3.20/command/add_library.html?highlight=interface#interface-libraries
 # Visibility keywords: PRIVATE applies to the target itself; INTERFACE passes
 # properties up to targets that link against it; PUBLIC does both.
-add_library(micro-os-plus-devices-qemu-cortexm-interface INTERFACE
-            EXCLUDE_FROM_ALL)
+add_library (
+  micro-os-plus-devices-qemu-cortexm-interface INTERFACE EXCLUDE_FROM_ALL
+)
 
-target_include_directories(micro-os-plus-devices-qemu-cortexm-interface
-                           INTERFACE "include")
+target_include_directories (
+  micro-os-plus-devices-qemu-cortexm-interface INTERFACE "include"
+)
 
-target_sources(micro-os-plus-devices-qemu-cortexm-interface
-               INTERFACE "src/system-cortexm.c")
+target_sources (
+  micro-os-plus-devices-qemu-cortexm-interface INTERFACE "src/system-cortexm.c"
+)
 
-target_link_libraries(
+target_link_libraries (
   micro-os-plus-devices-qemu-cortexm-interface
   INTERFACE "micro-os-plus::diag-trace" "micro-os-plus::architecture"
-            "xpack-3rd-party::arm-cmsis-core-cortex-m")
+            "xpack-3rd-party::arm-cmsis-core-cortex-m"
+)
 
-if(COMMAND xpack_display_target_lists)
-  xpack_display_target_lists(micro-os-plus-devices-qemu-cortexm-interface)
-endif()
+if (COMMAND xpack_display_target_lists)
+  xpack_display_target_lists (micro-os-plus-devices-qemu-cortexm-interface)
+endif ()
 
 # -----------------------------------------------------------------------------
 # Alias.
 
 # https://cmake.org/cmake/help/v3.20/command/add_library.html#alias-libraries
-add_library(micro-os-plus::devices-qemu-cortexm ALIAS
-            micro-os-plus-devices-qemu-cortexm-interface)
-message(
+add_library (
+  micro-os-plus::devices-qemu-cortexm ALIAS
+  micro-os-plus-devices-qemu-cortexm-interface
+)
+message (
   VERBOSE
   "> micro-os-plus::devices-qemu-cortexm -> micro-os-plus-devices-qemu-cortexm-interface"
 )
 
-add_library(micro-os-plus::device ALIAS
-            micro-os-plus-devices-qemu-cortexm-interface)
-message(
+add_library (
+  micro-os-plus::device ALIAS micro-os-plus-devices-qemu-cortexm-interface
+)
+message (
   VERBOSE
-  "> micro-os-plus::device -> micro-os-plus-devices-qemu-cortexm-interface")
+  "> micro-os-plus::device -> micro-os-plus-devices-qemu-cortexm-interface"
+)
 
 # -----------------------------------------------------------------------------
 
 # https://cmake.org/cmake/help/v3.20/command/add_library.html?highlight=interface#interface-libraries
 # Visibility keywords: PRIVATE applies to the target itself; INTERFACE passes
 # properties up to targets that link against it; PUBLIC does both.
-add_library(micro-os-plus-devices-qemu-cortexm-vectors-generic-interface
-            INTERFACE EXCLUDE_FROM_ALL)
+add_library (
+  micro-os-plus-devices-qemu-cortexm-vectors-generic-interface INTERFACE
+  EXCLUDE_FROM_ALL
+)
 
-target_sources(micro-os-plus-devices-qemu-cortexm-vectors-generic-interface
-               INTERFACE "src/vectors-generic.c")
-
-target_link_libraries(
+target_sources (
   micro-os-plus-devices-qemu-cortexm-vectors-generic-interface
-  INTERFACE "micro-os-plus::architecture")
+  INTERFACE "src/vectors-generic.c"
+)
 
-if(COMMAND xpack_display_target_lists)
-  xpack_display_target_lists(
-    micro-os-plus-devices-qemu-cortexm-vectors-generic-interface)
-endif()
+target_link_libraries (
+  micro-os-plus-devices-qemu-cortexm-vectors-generic-interface
+  INTERFACE "micro-os-plus::architecture"
+)
+
+if (COMMAND xpack_display_target_lists)
+  xpack_display_target_lists (
+    micro-os-plus-devices-qemu-cortexm-vectors-generic-interface
+  )
+endif ()
 
 # -----------------------------------------------------------------------------
 # Alias.
 
 # https://cmake.org/cmake/help/v3.20/command/add_library.html#alias-libraries
-add_library(micro-os-plus::devices-qemu-cortexm-vectors-generic ALIAS
-            micro-os-plus-devices-qemu-cortexm-vectors-generic-interface)
-message(
+add_library (
+  micro-os-plus::devices-qemu-cortexm-vectors-generic ALIAS
+  micro-os-plus-devices-qemu-cortexm-vectors-generic-interface
+)
+message (
   VERBOSE
   "> micro-os-plus::devices-qemu-cortexm-vectors-generic -> micro-os-plus-devices-qemu-cortexm-vectors-generic-interface"
 )
@@ -137,28 +157,36 @@ message(
 # https://cmake.org/cmake/help/v3.20/command/add_library.html?highlight=interface#interface-libraries
 # Visibility keywords: PRIVATE applies to the target itself; INTERFACE passes
 # properties up to targets that link against it; PUBLIC does both.
-add_library(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface
-            INTERFACE EXCLUDE_FROM_ALL)
+add_library (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface INTERFACE
+  EXCLUDE_FROM_ALL
+)
 
-target_sources(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface
-               INTERFACE "src/vectors-mps2-an385.c")
-
-target_link_libraries(
+target_sources (
   micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface
-  INTERFACE "micro-os-plus::architecture")
+  INTERFACE "src/vectors-mps2-an385.c"
+)
 
-if(COMMAND xpack_display_target_lists)
-  xpack_display_target_lists(
-    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface)
-endif()
+target_link_libraries (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface
+  INTERFACE "micro-os-plus::architecture"
+)
+
+if (COMMAND xpack_display_target_lists)
+  xpack_display_target_lists (
+    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface
+  )
+endif ()
 
 # -----------------------------------------------------------------------------
 # Alias.
 
 # https://cmake.org/cmake/help/v3.20/command/add_library.html#alias-libraries
-add_library(micro-os-plus::devices-qemu-cortexm-vectors-mps2-an385 ALIAS
-            micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface)
-message(
+add_library (
+  micro-os-plus::devices-qemu-cortexm-vectors-mps2-an385 ALIAS
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface
+)
+message (
   VERBOSE
   "> micro-os-plus::devices-qemu-cortexm-vectors-mps2-an385 -> micro-os-plus-devices-qemu-cortexm-vectors-mps2-an385-interface"
 )
@@ -168,28 +196,36 @@ message(
 # https://cmake.org/cmake/help/v3.20/command/add_library.html?highlight=interface#interface-libraries
 # Visibility keywords: PRIVATE applies to the target itself; INTERFACE passes
 # properties up to targets that link against it; PUBLIC does both.
-add_library(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface
-            INTERFACE EXCLUDE_FROM_ALL)
+add_library (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface INTERFACE
+  EXCLUDE_FROM_ALL
+)
 
-target_sources(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface
-               INTERFACE "src/vectors-mps2-an386.c")
-
-target_link_libraries(
+target_sources (
   micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface
-  INTERFACE "micro-os-plus::architecture")
+  INTERFACE "src/vectors-mps2-an386.c"
+)
 
-if(COMMAND xpack_display_target_lists)
-  xpack_display_target_lists(
-    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface)
-endif()
+target_link_libraries (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface
+  INTERFACE "micro-os-plus::architecture"
+)
+
+if (COMMAND xpack_display_target_lists)
+  xpack_display_target_lists (
+    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface
+  )
+endif ()
 
 # -----------------------------------------------------------------------------
 # Alias.
 
 # https://cmake.org/cmake/help/v3.20/command/add_library.html#alias-libraries
-add_library(micro-os-plus::devices-qemu-cortexm-vectors-mps2-an386 ALIAS
-            micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface)
-message(
+add_library (
+  micro-os-plus::devices-qemu-cortexm-vectors-mps2-an386 ALIAS
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface
+)
+message (
   VERBOSE
   "> micro-os-plus::devices-qemu-cortexm-vectors-mps2-an386 -> micro-os-plus-devices-qemu-cortexm-vectors-mps2-an386-interface"
 )
@@ -199,28 +235,36 @@ message(
 # https://cmake.org/cmake/help/v3.20/command/add_library.html?highlight=interface#interface-libraries
 # Visibility keywords: PRIVATE applies to the target itself; INTERFACE passes
 # properties up to targets that link against it; PUBLIC does both.
-add_library(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface
-            INTERFACE EXCLUDE_FROM_ALL)
+add_library (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface INTERFACE
+  EXCLUDE_FROM_ALL
+)
 
-target_sources(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface
-               INTERFACE "src/vectors-mps2-an500.c")
-
-target_link_libraries(
+target_sources (
   micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface
-  INTERFACE "micro-os-plus::architecture")
+  INTERFACE "src/vectors-mps2-an500.c"
+)
 
-if(COMMAND xpack_display_target_lists)
-  xpack_display_target_lists(
-    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface)
-endif()
+target_link_libraries (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface
+  INTERFACE "micro-os-plus::architecture"
+)
+
+if (COMMAND xpack_display_target_lists)
+  xpack_display_target_lists (
+    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface
+  )
+endif ()
 
 # -----------------------------------------------------------------------------
 # Alias.
 
 # https://cmake.org/cmake/help/v3.20/command/add_library.html#alias-libraries
-add_library(micro-os-plus::devices-qemu-cortexm-vectors-mps2-an500 ALIAS
-            micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface)
-message(
+add_library (
+  micro-os-plus::devices-qemu-cortexm-vectors-mps2-an500 ALIAS
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface
+)
+message (
   VERBOSE
   "> micro-os-plus::devices-qemu-cortexm-vectors-mps2-an500 -> micro-os-plus-devices-qemu-cortexm-vectors-mps2-an500-interface"
 )
@@ -230,28 +274,36 @@ message(
 # https://cmake.org/cmake/help/v3.20/command/add_library.html?highlight=interface#interface-libraries
 # Visibility keywords: PRIVATE applies to the target itself; INTERFACE passes
 # properties up to targets that link against it; PUBLIC does both.
-add_library(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface
-            INTERFACE EXCLUDE_FROM_ALL)
+add_library (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface INTERFACE
+  EXCLUDE_FROM_ALL
+)
 
-target_sources(micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface
-               INTERFACE "src/vectors-mps2-an505.c")
-
-target_link_libraries(
+target_sources (
   micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface
-  INTERFACE "micro-os-plus::architecture")
+  INTERFACE "src/vectors-mps2-an505.c"
+)
 
-if(COMMAND xpack_display_target_lists)
-  xpack_display_target_lists(
-    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface)
-endif()
+target_link_libraries (
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface
+  INTERFACE "micro-os-plus::architecture"
+)
+
+if (COMMAND xpack_display_target_lists)
+  xpack_display_target_lists (
+    micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface
+  )
+endif ()
 
 # -----------------------------------------------------------------------------
 # Alias.
 
 # https://cmake.org/cmake/help/v3.20/command/add_library.html#alias-libraries
-add_library(micro-os-plus::devices-qemu-cortexm-vectors-mps2-an505 ALIAS
-            micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface)
-message(
+add_library (
+  micro-os-plus::devices-qemu-cortexm-vectors-mps2-an505 ALIAS
+  micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface
+)
+message (
   VERBOSE
   "> micro-os-plus::devices-qemu-cortexm-vectors-mps2-an505 -> micro-os-plus-devices-qemu-cortexm-vectors-mps2-an505-interface"
 )

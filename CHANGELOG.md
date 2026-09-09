@@ -8,7 +8,10 @@ and close existing issues and pull requests.
 
 ## 2026-09-09
 
-* v7.0.0
+* v7.0.1
+* ef2ded9 device.h: silence errors
+* f455355 7.0.0
+* 466223d prepare v7.0.0
 * bdab8b9 re-format cmake
 
 ## 2026-09-07

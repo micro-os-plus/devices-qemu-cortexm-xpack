@@ -6,9 +6,34 @@ Please check
 [GitHub](https://github.com/micro-os-plus/devices-qemu-cortexm-xpack/issues/)
 and close existing issues and pull requests.
 
+## 2026-09-09
+
+* v7.0.0
+* bdab8b9 re-format cmake
+
+## 2026-09-07
+
+* 5c01d83 add svd
+* b6adb21 separate vectors for devices
+
+## 2026-09-06
+
+* 7abf8fc remove handlers, moved to architecture
+* 640e005 add mps2 pdf
+* 0336140 vectors comments updates
+* 730a36a linker-script updates
+* 21ec9bc handlers: add support for arm v8
+* 841b7b2 device.h: add m33
+
+## 2026-08-05
+
+* bb31f37 #pragma ... push cosmetics
+* 3ad948c readme cosmetics
+
 ## 2026-08-04
 
-* v6.0.0
+* 54809af 6.0.0
+* bd00aca prepare v6.0.0
 * 1040f3a re-generate top commons
 
 ## 2026-07-22

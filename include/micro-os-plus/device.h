@@ -67,6 +67,7 @@ extern "C"
 #pragma GCC diagnostic ignored "-Wvolatile"
 #endif
 #pragma GCC diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Warith-conversion"
 #endif // defined(__GNUC__)
 
 #if defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M0)

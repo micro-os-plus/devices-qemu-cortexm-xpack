@@ -70,7 +70,7 @@ extern "C"
 #pragma GCC diagnostic ignored "-Warith-conversion"
 #endif // defined(__GNUC__)
 
-#if defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M0)
+#if defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_CORE_M0)
 
 #define __CM0_REV 0x0000U /*!< Core revision r0p0 */
 #define __MPU_PRESENT 0U /*!< MPU not present */
@@ -81,7 +81,7 @@ extern "C"
 
 #include "core_cm0.h"
 
-#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M0PLUS)
+#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_CORE_M0PLUS)
 
 #define __CM0PLUS_REV 0x0000U /*!< Core revision r0p0 */
 #define __MPU_PRESENT 0U /*!< MPU not present */
@@ -92,7 +92,7 @@ extern "C"
 
 #include "core_cm0plus.h"
 
-#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M3)
+#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_CORE_M3)
 
 #define __CM3_REV 0x0000U /*!< Core revision r0p0 */
 #define __MPU_PRESENT 1U /*!< MPU present */
@@ -103,7 +103,7 @@ extern "C"
 
 #include "core_cm3.h"
 
-#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M4)
+#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_CORE_M4)
 
 #define __CM4_REV 0x0000U /*!< Core revision r0p0 */
 #define __MPU_PRESENT 1U /*!< MPU present */
@@ -114,7 +114,7 @@ extern "C"
 
 #include "core_cm4.h"
 
-#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M7)
+#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_CORE_M7)
 
 #define __CM7_REV 0x0000U /*!< Core revision r0p0 */
 #define __MPU_PRESENT 1U /*!< MPU present */
@@ -125,7 +125,7 @@ extern "C"
 
 #include "core_cm7.h"
 
-#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_M33)
+#elif defined(MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_CORE_M33)
 
 // The __NVIC_PRIO_BITS might be 8 for QEMU.
 

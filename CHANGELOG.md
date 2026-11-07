@@ -6,9 +6,17 @@ Please check
 [GitHub](https://github.com/micro-os-plus/devices-qemu-cortexm-xpack/issues/)
 and close existing issues and pull requests.
 
+## 2026-11-07
+
+* v8.0.0
+* 6e1ccd4 re-generate top commons
+* 03ba059 device.qemu-cortexm (singular)
+* be41b51 MICRO_OS_PLUS_DEVICE_QEMU_CORTEX_CORE_M0
+
 ## 2026-09-09
 
-* v7.0.1
+* 3309e70 7.0.1
+* 8492fd2 prepare v7.0.1
 * ef2ded9 device.h: silence errors
 * f455355 7.0.0
 * 466223d prepare v7.0.0
